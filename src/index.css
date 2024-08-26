@@ -10,8 +10,9 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
+    --primary: 109 61% 43%;
     --primary-foreground: 355.7 100% 97.3%;
+    --primary-dark: 110 88.1% 30.23%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
@@ -38,8 +39,9 @@
     --card-foreground: 0 0% 95%;
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 95%;
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
+    --primary: 109 58% 25%;
+    --primary-foreground: 144.9 47% 9%;
+    --primary-dark: 110 43% 33%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 15%;
@@ -61,9 +63,45 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply scroll-smooth border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* .my-react-select-container {
+  } */
+  .my-react-select-container .my-react-select__control {
+    @apply border-[1px] border-border bg-background;
+  }
+
+  .my-react-select-container .my-react-select__control--is-focused {
+    @apply border-neutral-500 shadow-none hover:border-neutral-500 dark:border-neutral-400 dark:hover:border-neutral-400;
+  }
+
+  .my-react-select-container .my-react-select__menu {
+    @apply border-[1px] border-border bg-background
+  }
+
+  .my-react-select-container .my-react-select__option {
+    @apply bg-background cursor-pointer hover:bg-muted;
+  }
+  .my-react-select-container .my-react-select__option--is-focused {
+    @apply text-foreground;
+  }
+  .my-react-select-container .my-react-select__option--is-selected {
+    @apply text-muted-foreground;
+  }
+
+  .my-react-select-container .my-react-select__indicator-separator {
+    @apply bg-border;
+  }
+
+  .my-react-select-container .my-react-select__input-container,
+  .my-react-select-container .my-react-select__placeholder,
+  .my-react-select-container .my-react-select__single-value {
+    @apply text-foreground;
   }
 }

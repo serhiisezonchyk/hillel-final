@@ -1,15 +1,16 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
+import Footer from '../footer/Footer';
 import CartPageHeader from '../header/CartPageHeader';
 
-type Props = {};
-
-const CartPageLayout = (props: Props) => {
+const CartPageLayout = () => {
   return (
     <>
+      <ScrollRestoration />
       <CartPageHeader />
       <main>
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 };

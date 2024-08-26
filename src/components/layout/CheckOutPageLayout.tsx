@@ -1,15 +1,16 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
+import CheckoutPageFooter from '../footer/CheckoutPageFooter';
 import CheckOutPageHeader from '../header/CheckOutPageHeader';
 
-type Props = {};
-
-const CheckOutPageLayout = (props: Props) => {
+const CheckOutPageLayout = () => {
   return (
     <>
+      <ScrollRestoration />
       <CheckOutPageHeader />
       <main>
         <Outlet />
       </main>
+      <CheckoutPageFooter />
     </>
   );
 };

@@ -1,15 +1,18 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
+import BottomMenu from '../bottom-menu/BottomNavigation';
+import Footer from '../footer/Footer';
 import Header from '../header/Header';
 
-type Props = {};
-
-const Layout = (props: Props) => {
+const Layout = () => {
   return (
     <>
+      <ScrollRestoration />
       <Header />
-      <main>
+      <main className="mb-[49px]">
         <Outlet />
       </main>
+      <Footer className="mb-8 md:mb-0" />
+      <BottomMenu />
     </>
   );
 };

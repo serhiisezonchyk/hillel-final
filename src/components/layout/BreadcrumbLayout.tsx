@@ -1,11 +1,22 @@
-import { Outlet } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import Breadcrumb from '../shared/Breadcrumb';
 
-type Props = {};
-
-const BreadcrumbLayout = (props: Props) => {
+const BreadcrumbLayout = () => {
+  const location = useLocation();
+  const pathnames = useMemo(
+    () =>
+      location.pathname
+        .split('/')
+        .filter((x) => x)
+        .map((el) => decodeURIComponent(el)),
+    [location.pathname],
+  );
   return (
     <>
-      <div>breadcrumb</div>
+      <div className="container my-2">
+        <Breadcrumb pathnames={pathnames} />
+      </div>
       <Outlet />
     </>
   );
