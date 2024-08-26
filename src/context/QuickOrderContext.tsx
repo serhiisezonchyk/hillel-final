@@ -1,10 +1,10 @@
 import QuickOrderSheetBody from '@/components/shared/QuickOrderSheetBody';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Product } from '@/types';
+import { CartProduct, Product } from '@/types';
 import { createContext, useContext, useState } from 'react';
 
 interface QuickOrderContextType {
-  openSheet: (product: Product) => void;
+  openSheet: (product: CartProduct) => void;
   closeSheet: () => void;
   isOpen: boolean;
 }
@@ -16,9 +16,9 @@ export const QuickOrderContext = createContext<QuickOrderContextType>({
 
 export const QuickOrderContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<CartProduct | null>(null);
 
-  const openSheet = (product: Product) => {
+  const openSheet = (product: CartProduct) => {
     setSelectedProduct(product);
     setIsOpen(true);
   };

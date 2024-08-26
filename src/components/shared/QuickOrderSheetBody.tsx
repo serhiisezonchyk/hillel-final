@@ -1,7 +1,7 @@
 import { STORAGE_KEYS } from '@/consts';
 import { StorageService } from '@/lib/StorageService';
 import { updateProduct } from '@/store/slices/cart';
-import { Product, RedirectedCart } from '@/types';
+import { CartProduct, Product, RedirectedCart } from '@/types';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../ui/button';
@@ -9,17 +9,16 @@ import QuantityInput from './QuantityInput';
 
 interface Props {
   handleClose: () => void;
-  item: Product;
+  item: CartProduct;
 }
 const orderService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key, import.meta.env.VITE_STORAGE_SECRET_KEY);
 
 const QuickOrderSheetBody: React.FC<Props> = ({ item, handleClose }) => {
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(item.quantity);
   const link = `/${item.category}/${item.id}`;
   const totalDiscount = (item.discount ?? 0) * quantity;
   const price = item.price * quantity - totalDiscount;
-
   useEffect(() => {
     dispatch(updateProduct({ id: item.id, quantity }));
     if (quantity === 0) handleClose();

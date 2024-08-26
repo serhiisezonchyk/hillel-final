@@ -40,7 +40,7 @@ const BuyButton: React.FC<Props> = ({
       toast.success(`"${product.title}" was removed from cart.`);
     } else {
       dispatch(addToCart({ ...product, quantity, selected }));
-      openSheet(product);
+      openSheet({ ...product, quantity, selected });
     }
   };
 
