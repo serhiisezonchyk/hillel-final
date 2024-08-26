@@ -2,9 +2,9 @@ import { CarouselImage, Payment, StorageKeyConfig } from './types';
 
 export const FREE_DELIVERY_PRICE = 100;
 
-export const DEFAULT_DELIVERY_PRICE = 10;
+export const DEFAULT_DELIVERY_PRICE = 7;
 
-export const DEFAULT_LIFTING_PRICE = 5;
+export const DEFAULT_LIFTING_PRICE = 2;
 
 export const DEFAULT_CITY = { Description: 'Київ', Ref: '8d5a980d-391c-11dd-90d9-001a92567626', CityID: '4' } as const;
 

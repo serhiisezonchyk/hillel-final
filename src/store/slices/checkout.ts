@@ -1,5 +1,6 @@
 import { STORAGE_KEYS } from '@/consts';
 import { StorageService } from '@/lib/StorageService';
+import { calculateDeliveryPrice } from '@/lib/utils';
 import { CitiesNP, DeliveryMethod, Order, Payment } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
@@ -33,6 +34,12 @@ interface CheckoutState {
   paymentMethod: Payment;
   items: RedirectedCart;
   status: CheckoutStatus;
+  deliveryCost: {
+    deliveryPrice: number;
+    liftingPrice: number;
+  };
+
+  priceWithShipping: number;
 }
 
 const storageService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key);
@@ -45,8 +52,17 @@ const initialState: CheckoutState = {
   paymentMethod: 'cash',
   items: defaultItems,
   status: CheckoutStatus.LOADING,
+  deliveryCost: {
+    deliveryPrice: 0,
+    liftingPrice: 0,
+  },
+  priceWithShipping: 0,
 };
-
+const updatePrices = (state: CheckoutState) => {
+  const deliveryCost = calculateDeliveryPrice(state.items.finalPrice, state.delivery);
+  state.deliveryCost = deliveryCost;
+  state.priceWithShipping = state.items.finalPrice + deliveryCost.deliveryPrice + deliveryCost.liftingPrice;
+};
 export const checkoutSlice = createSlice({
   name: 'cart',
   initialState,
@@ -76,6 +92,7 @@ export const checkoutSlice = createSlice({
       state.status = CheckoutStatus.LOADING;
       state.city = { name: city.Description, ref: city.Ref };
       state.items = data ?? defaultItems;
+      updatePrices(state);
       state.status = CheckoutStatus.LOADED;
       storageService.clearItems();
     },
@@ -87,6 +104,7 @@ export const checkoutSlice = createSlice({
     },
     setDeliveryInfo: (state, action: PayloadAction<Pick<CheckoutState, 'delivery'>['delivery']>) => {
       state.delivery = action.payload;
+      updatePrices(state);
     },
     setPaymentMehod: (state, action: PayloadAction<Payment>) => {
       state.paymentMethod = action.payload;
@@ -103,4 +121,13 @@ export const selectCity = (state: RootState) => state.checkout.city;
 export const selectUserInfo = (state: RootState) => state.checkout.userInfo;
 export const selectDelivery = (state: RootState) => state.checkout.delivery;
 export const selectPaymentMethod = (state: RootState) => state.checkout.paymentMethod;
+export const selectPrices = (state: RootState) => {
+  return {
+    totalPrice: state.checkout.items.totalPrice,
+    totalDiscount: state.checkout.items.totalDiscount,
+    finalPrice: state.checkout.items.finalPrice,
+    deliveryCosts: state.checkout.deliveryCost,
+    priceWithShipping: state.checkout.priceWithShipping,
+  };
+};
 export default checkoutSlice.reducer;
