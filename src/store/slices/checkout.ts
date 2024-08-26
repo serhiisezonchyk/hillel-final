@@ -2,6 +2,7 @@ import { STORAGE_KEYS } from '@/consts';
 import { StorageService } from '@/lib/StorageService';
 import { calculateDeliveryPrice } from '@/lib/utils';
 import { CitiesNP, DeliveryMethod, Order, Payment } from '@/types';
+import { isOrderValid } from '@/validation/validationFunctions';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import { RedirectedCart } from './../../types/index';
@@ -63,6 +64,23 @@ const updatePrices = (state: CheckoutState) => {
   state.deliveryCost = deliveryCost;
   state.priceWithShipping = state.items.finalPrice + deliveryCost.deliveryPrice + deliveryCost.liftingPrice;
 };
+
+export const updateOrderStatus = (state: CheckoutState) => {
+  const orderData = {
+    city: state.city,
+    uniqueCount: state.items.uniqueCount,
+    count: state.items.countToOrder,
+    productPrice: state.items.totalPrice,
+    deliveryPrice: state.deliveryCost.deliveryPrice,
+    totalPrice: state.priceWithShipping,
+    user: state.userInfo,
+    delivery: state.delivery,
+    payment: { type: state.paymentMethod },
+    products: state.items.itemsToOrder,
+  };
+
+  state.status = isOrderValid(orderData) ? CheckoutStatus.READY_TO_ORDER : CheckoutStatus.LOADED;
+};
 export const checkoutSlice = createSlice({
   name: 'cart',
   initialState,
@@ -95,28 +113,57 @@ export const checkoutSlice = createSlice({
       updatePrices(state);
       state.status = CheckoutStatus.LOADED;
     },
-    clearCheckoutStateData: (state) => {
-      state = initialState;
+    clearCheckoutStateData: () => {
       storageService.clearItems();
+      return initialState;
     },
     setCity: (state, action: PayloadAction<Pick<CheckoutState, 'city'>['city']>) => {
       state.city = action.payload;
+      updateOrderStatus(state);
     },
     setUserInfo: (state, action: PayloadAction<Pick<CheckoutState, 'userInfo'>['userInfo']>) => {
       state.userInfo = action.payload;
+      updateOrderStatus(state);
     },
     setDeliveryInfo: (state, action: PayloadAction<Pick<CheckoutState, 'delivery'>['delivery']>) => {
       state.delivery = action.payload;
       updatePrices(state);
+      updateOrderStatus(state);
     },
     setPaymentMehod: (state, action: PayloadAction<Payment>) => {
       state.paymentMethod = action.payload;
+      updateOrderStatus(state);
+    },
+    submitOrder: (state) => {
+      const orderData = {
+        city: state.city,
+        uniqueCount: state.items.uniqueCount,
+        count: state.items.countToOrder,
+        productPrice: state.items.totalPrice,
+        deliveryPrice: state.deliveryCost.deliveryPrice,
+        totalPrice: state.priceWithShipping,
+        user: state.userInfo,
+        delivery: state.delivery,
+        payment: { type: state.paymentMethod },
+        products: state.items.itemsToOrder,
+      };
+      const plainOrderData = JSON.parse(JSON.stringify(orderData));
+      console.log(plainOrderData);
     },
   },
 });
 
-export const { nextStep, editStep, loadData, setCity, setUserInfo, setDeliveryInfo, setPaymentMehod,clearCheckoutStateData } =
-  checkoutSlice.actions;
+export const {
+  nextStep,
+  editStep,
+  loadData,
+  setCity,
+  setUserInfo,
+  setDeliveryInfo,
+  setPaymentMehod,
+  clearCheckoutStateData,
+  submitOrder,
+} = checkoutSlice.actions;
 export const selectStep = (state: RootState) => state.checkout.step;
 export const selectItems = (state: RootState) => state.checkout.items;
 export const selectStatus = (state: RootState) => state.checkout.status;

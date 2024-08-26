@@ -83,6 +83,10 @@ export const cartSlice = createSlice({
         storageService.setItems(state);
       }
     },
+    clearOrderedData: (state, action: PayloadAction<number[]>) => {
+      state.items = state.items.filter((el) => !action.payload.includes(el.id));
+      updateTotals(state);
+    },
   },
 });
 
@@ -91,6 +95,6 @@ export const selectIsInCart = (state: RootState, productId: number) => {
 };
 export const selectCartItems = (state: RootState) => state.cart.items;
 export const selectCartCount = (state: RootState) => state.cart.count;
-export const { addToCart, removeFromCart, removeAllFromCart, updateProduct } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeAllFromCart, updateProduct, clearOrderedData } = cartSlice.actions;
 
 export default cartSlice.reducer;

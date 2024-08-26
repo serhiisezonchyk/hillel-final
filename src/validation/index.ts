@@ -1,5 +1,24 @@
 import { z } from 'zod';
 
+export const productSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  price: z.number(),
+  category: z.string(),
+  description: z.string(),
+  image: z.string(),
+  rating: z.object({
+    rate: z.number(),
+    count: z.number(),
+  }),
+  discount: z.number().optional(),
+});
+
+export const cartProductSchema = productSchema.extend({
+  quantity: z.number(),
+  selected: z.boolean(),
+});
+
 export const signInSchema = z.object({
   login: z.string().min(1, 'Login is required'),
   password: z.string().min(1, 'Password is required'),
@@ -77,4 +96,5 @@ export const orderSchema = z.object({
   user: userInfoSchema,
   delivery: deliverySchema,
   payment: paymentSchema,
+  products: z.array(cartProductSchema),
 });

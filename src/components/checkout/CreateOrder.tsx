@@ -1,16 +1,27 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { CheckoutStatus, selectItems, selectPrices, selectStatus } from '@/store/slices/checkout';
+import { clearOrderedData } from '@/store/slices/cart';
+import { CheckoutStatus, selectItems, selectPrices, selectStatus, submitOrder } from '@/store/slices/checkout';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import AlertAction from '../shared/AlertAction';
 interface Props {
   className?: string;
 }
 const CreateOrder: React.FC<Props> = ({ className }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const status = useSelector(selectStatus);
   const items = useSelector(selectItems);
   const prices = useSelector(selectPrices);
-
+  const handleClick = () => {
+    dispatch(submitOrder());
+    toast.success('Order submitted successfully! Please wait while we process your phone order.');
+    dispatch(clearOrderedData(items.itemsToOrder.map((el) => el.id)));
+    navigate('/');
+  };
   return (
     <div className={cn('flex flex-col', className)}>
       <div className="w-full leading-relaxed">
@@ -61,9 +72,15 @@ const CreateOrder: React.FC<Props> = ({ className }) => {
           <span className="font-semibold text-2xl">$ {prices.priceWithShipping}</span>
         </div>
       </div>
-      <Button className="w-full mt-8 lg:mt-0 lg:h-14" disabled={status !== CheckoutStatus.READY_TO_ORDER}>
-        Checkout
-      </Button>
+      <AlertAction
+        title="Click 'Continue' to submit order"
+        onSubmit={handleClick}
+        description="Ensure all the details are correct before proceeding. Review your information, delivery method, and payment options to confirm everything is accurate. Once you’re ready, click 'Continue' to finalize your order."
+      >
+        <Button className="w-full mt-8 lg:mt-0 lg:h-14" disabled={status !== CheckoutStatus.READY_TO_ORDER}>
+          Checkout
+        </Button>
+      </AlertAction>
     </div>
   );
 };

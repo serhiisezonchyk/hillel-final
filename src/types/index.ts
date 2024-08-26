@@ -1,22 +1,10 @@
 import { StorageService } from '@/lib/StorageService';
-import { deliverySchema, orderSchema, paymentEnum } from '@/validation';
+import { cartProductSchema, deliverySchema, orderSchema, paymentEnum, productSchema } from '@/validation';
 import { z } from 'zod';
 
-export type Product = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-  discount?: number;
-};
+export type Product = z.infer<typeof productSchema>;
 
-export type CartProduct = Product & { quantity: number; selected: boolean };
+export type CartProduct = z.infer<typeof cartProductSchema>;
 
 export type Category = string;
 
@@ -48,6 +36,8 @@ export type RedirectedCart = {
 export type DeliveryMethod = z.infer<typeof deliverySchema>;
 export type Order = z.infer<typeof orderSchema>;
 export type Payment = z.infer<typeof paymentEnum>;
+
+
 // NOVA POST API TYPES (REQ)
 export type CalledMethod = 'getCities' | 'getWarehouses';
 
