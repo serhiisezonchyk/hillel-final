@@ -59,7 +59,7 @@ const CheckOutPage = () => {
             </div>
 
             {/* Here is create order button */}
-            <CreateOrder className="bg-card p-4 h-fit" />
+            <CreateOrder className="bg-card p-4 h-fit md:sticky md:top-2" />
           </div>
         </div>
       </div>
