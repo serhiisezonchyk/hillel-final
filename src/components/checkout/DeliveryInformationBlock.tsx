@@ -31,7 +31,7 @@ const DeliveryInformationBlock = () => {
 
   const deliveryMethod = form.watch('deliveryMethod');
   const onSubmit = (values: DeliveryMethod) => {
-  dispatch(setDeliveryInfo(values));
+    dispatch(setDeliveryInfo(values));
     dispatch(nextStep());
   };
 
@@ -46,7 +46,10 @@ const DeliveryInformationBlock = () => {
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between px-2 sm:items-center">
           <DeliveryMethodPreview delivery={delivery} />
           <Button
-            className="w-full mb-2 sm:mb-0 sm:w-auto"
+            className={cn('relative w-full mb-2 sm:mb-0 sm:w-auto', {
+              'border-[1px] border-orange-500 after:content-[""] after:absolute after:top-0 after:right-0 after:w-2 after:h-2 after:bg-orange-500 after:rounded-full after:animate-ping':
+                delivery.deliveryMethod !== deliveryMethod,
+            })}
             variant={'outline'}
             onClick={() => dispatch(editStep(CheckoutSteps.DELIVERY_METHOD))}
           >
@@ -160,7 +163,13 @@ const DeliveryInformationBlock = () => {
               />
             </div>
           )}
-          <Button className="w-full sm:w-40 justify-self-center" type="submit">
+          <Button
+            className={cn('relative w-full sm:w-40 justify-self-center border-[1px] border-transparent', {
+              'border-[1px] border-orange-500 after:content-[""] after:absolute after:top-0 after:right-0 after:w-2 after:h-2 after:bg-orange-500 after:rounded-full after:animate-ping':
+                delivery.deliveryMethod !== deliveryMethod,
+            })}
+            type="submit"
+          >
             Continue
           </Button>
         </form>

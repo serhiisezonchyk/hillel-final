@@ -21,6 +21,8 @@ const ContactInformationBlock = () => {
     dispatch(setUserInfo(values));
     dispatch(nextStep());
   }
+  const watchedValues = form.watch();
+
   if (step !== CheckoutSteps.USER_INFO)
     return (
       <div
@@ -31,12 +33,15 @@ const ContactInformationBlock = () => {
         <h2 className="text-xl font-semibold leading-relaxed">1. Contact information</h2>
         <div className="flex flex-col sm:flex-row gap-2 w-full sm:justify-between px-2 sm:items-center">
           <div className="text-muted-foreground">
-            <p>{form.getValues('name')}</p>
-            <p>{form.getValues('email')}</p>
-            <p>{form.getValues('phone')}</p>
+            <p>{userInfo.name}</p>
+            <p>{userInfo.email}</p>
+            <p>{userInfo.phone}</p>
           </div>
           <Button
-            className="w-full mb-2 sm:mb-0 sm:w-auto"
+            className={cn('relative w-full mb-2 sm:mb-0 sm:w-auto', {
+              'border-[1px] border-orange-500 after:content-[""] after:absolute after:top-0 after:right-0 after:w-2 after:h-2 after:bg-orange-500 after:rounded-full after:animate-ping':
+                JSON.stringify(userInfo) !== JSON.stringify(watchedValues),
+            })}
             variant={'outline'}
             onClick={() => dispatch(editStep(CheckoutSteps.USER_INFO))}
           >
@@ -45,7 +50,6 @@ const ContactInformationBlock = () => {
         </div>
       </div>
     );
-
   return (
     <div className="bg-card rounded-md p-4 space-y-2">
       <h2 className="text-xl font-semibold leading-relaxed">1. Contact information</h2>
@@ -95,7 +99,16 @@ const ContactInformationBlock = () => {
             />
           </div>
 
-          <Button className="w-full sm:w-40 justify-self-center" type="submit">
+          {/* <Button className="w-full sm:w-40 justify-self-center" type="submit">
+            Continue
+          </Button> */}
+          <Button
+            className={cn('relative w-full sm:w-40 justify-self-center border-[1px] border-transparent', {
+              'border-[1px] border-orange-500 after:content-[""] after:absolute after:top-0 after:right-0 after:w-2 after:h-2 after:bg-orange-500 after:rounded-full after:animate-ping':
+                JSON.stringify(userInfo) !== JSON.stringify(watchedValues),
+            })}
+            type="submit"
+          >
             Continue
           </Button>
         </form>
