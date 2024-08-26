@@ -5,7 +5,7 @@ export const isOrderValid = (orderData: Order) => {
   try {
     orderSchema.parse(orderData);
     return true;
-  } catch (error) {
+  } catch (_) {
     return false;
   }
 };

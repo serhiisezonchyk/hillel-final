@@ -60,4 +60,5 @@ export const novapostApi = createApi({
   }),
 });
 
-export const { useGetCitiesQuery, useLazyGetCitiesQuery, useGetWarehousesQuery, useLazyGetWarehousesQuery } = novapostApi;
+export const { useGetCitiesQuery, useLazyGetCitiesQuery, useGetWarehousesQuery, useLazyGetWarehousesQuery } =
+  novapostApi;

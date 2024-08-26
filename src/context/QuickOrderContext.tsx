@@ -1,6 +1,6 @@
 import QuickOrderSheetBody from '@/components/shared/QuickOrderSheetBody';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { CartProduct, Product } from '@/types';
+import { CartProduct } from '@/types';
 import { createContext, useContext, useState } from 'react';
 
 interface QuickOrderContextType {

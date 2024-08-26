@@ -15,9 +15,9 @@ const CheckOutPage = () => {
 
   useEffect(() => {
     dispatch(loadData());
-    return()=>{
-      dispatch(clearCheckoutStateData())
-    }
+    return () => {
+      dispatch(clearCheckoutStateData());
+    };
   }, [dispatch]);
 
   const status = useSelector(selectStatus);

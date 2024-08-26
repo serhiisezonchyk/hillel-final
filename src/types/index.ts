@@ -37,7 +37,6 @@ export type DeliveryMethod = z.infer<typeof deliverySchema>;
 export type Order = z.infer<typeof orderSchema>;
 export type Payment = z.infer<typeof paymentEnum>;
 
-
 // NOVA POST API TYPES (REQ)
 export type CalledMethod = 'getCities' | 'getWarehouses';
 

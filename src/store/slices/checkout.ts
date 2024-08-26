@@ -7,7 +7,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import { RedirectedCart } from './../../types/index';
 
-const storageService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key,import.meta.env.VITE_STORAGE_SECRET_KEY);
+const storageService = new StorageService<RedirectedCart>(
+  STORAGE_KEYS.order.type,
+  STORAGE_KEYS.order.key,
+  import.meta.env.VITE_STORAGE_SECRET_KEY,
+);
 
 const defaultItems: RedirectedCart = {
   totalPrice: 0,
@@ -44,7 +48,6 @@ interface CheckoutState {
 
   priceWithShipping: number;
 }
-
 
 const initialState: CheckoutState = {
   step: CheckoutSteps.REVIEW_ORDER,

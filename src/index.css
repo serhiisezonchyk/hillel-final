@@ -82,11 +82,11 @@
   }
 
   .my-react-select-container .my-react-select__menu {
-    @apply border-[1px] border-border bg-background
+    @apply border-[1px] border-border bg-background;
   }
 
   .my-react-select-container .my-react-select__option {
-    @apply bg-background cursor-pointer hover:bg-muted;
+    @apply cursor-pointer bg-background hover:bg-muted;
   }
   .my-react-select-container .my-react-select__option--is-focused {
     @apply text-foreground;

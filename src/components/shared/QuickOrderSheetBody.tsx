@@ -1,7 +1,7 @@
 import { STORAGE_KEYS } from '@/consts';
 import { StorageService } from '@/lib/StorageService';
 import { updateProduct } from '@/store/slices/cart';
-import { CartProduct, Product, RedirectedCart } from '@/types';
+import { CartProduct, RedirectedCart } from '@/types';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button } from '../ui/button';
@@ -11,7 +11,11 @@ interface Props {
   handleClose: () => void;
   item: CartProduct;
 }
-const orderService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key, import.meta.env.VITE_STORAGE_SECRET_KEY);
+const orderService = new StorageService<RedirectedCart>(
+  STORAGE_KEYS.order.type,
+  STORAGE_KEYS.order.key,
+  import.meta.env.VITE_STORAGE_SECRET_KEY,
+);
 
 const QuickOrderSheetBody: React.FC<Props> = ({ item, handleClose }) => {
   const dispatch = useDispatch();
