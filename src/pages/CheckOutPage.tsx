@@ -4,7 +4,7 @@ import CreateOrder from '@/components/checkout/CreateOrder';
 import DeliveryInformationBlock from '@/components/checkout/DeliveryInformationBlock';
 import PaymentMethodBlock from '@/components/checkout/PaymentMethodBlock';
 import HelmetMetadata from '@/components/shared/HelmetMetadata';
-import { CheckoutStatus, loadData, selectItems, selectStatus } from '@/store/slices/checkout';
+import { CheckoutStatus, clearCheckoutStateData, loadData, selectItems, selectStatus } from '@/store/slices/checkout';
 import { ChevronLeft } from 'lucide-react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,9 @@ const CheckOutPage = () => {
 
   useEffect(() => {
     dispatch(loadData());
+    return()=>{
+      dispatch(clearCheckoutStateData())
+    }
   }, [dispatch]);
 
   const status = useSelector(selectStatus);

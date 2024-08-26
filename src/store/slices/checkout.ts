@@ -94,6 +94,9 @@ export const checkoutSlice = createSlice({
       state.items = data ?? defaultItems;
       updatePrices(state);
       state.status = CheckoutStatus.LOADED;
+    },
+    clearCheckoutStateData: (state) => {
+      state = initialState;
       storageService.clearItems();
     },
     setCity: (state, action: PayloadAction<Pick<CheckoutState, 'city'>['city']>) => {
@@ -112,7 +115,7 @@ export const checkoutSlice = createSlice({
   },
 });
 
-export const { nextStep, editStep, loadData, setCity, setUserInfo, setDeliveryInfo, setPaymentMehod } =
+export const { nextStep, editStep, loadData, setCity, setUserInfo, setDeliveryInfo, setPaymentMehod,clearCheckoutStateData } =
   checkoutSlice.actions;
 export const selectStep = (state: RootState) => state.checkout.step;
 export const selectItems = (state: RootState) => state.checkout.items;
