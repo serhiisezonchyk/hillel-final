@@ -3,23 +3,22 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write .",
-    "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx lint-staged"
-    }
+    "format": "prettier --write ."
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+    "*.{js,jsx,ts,tsx}": [
+      "npm run format",
+      "npm run lint"
     ]
   },
   "dependencies": {
@@ -77,6 +76,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "husky": "^9.1.5",
+    "lint-staged": "^15.2.9",
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.0.0",
