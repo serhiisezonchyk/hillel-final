@@ -11,7 +11,7 @@ interface Props {
   handleClose: () => void;
   item: Product;
 }
-const orderService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key);
+const orderService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key, import.meta.env.VITE_STORAGE_SECRET_KEY);
 
 const QuickOrderSheetBody: React.FC<Props> = ({ item, handleClose }) => {
   const dispatch = useDispatch();

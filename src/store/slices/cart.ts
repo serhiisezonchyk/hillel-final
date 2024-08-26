@@ -13,7 +13,7 @@ export interface CartState {
   countToOrder: number;
   itemsToOrder: CartProduct[];
 }
-const storageService = new StorageService<CartState>(STORAGE_KEYS.cart.type, STORAGE_KEYS.cart.key);
+const storageService = new StorageService<CartState>(STORAGE_KEYS.cart.type, STORAGE_KEYS.cart.key, import.meta.env.VITE_STORAGE_SECRET_KEY);
 
 const loadCartFromLocalStorage = (): CartState => {
   const savedCart = storageService.getItems();

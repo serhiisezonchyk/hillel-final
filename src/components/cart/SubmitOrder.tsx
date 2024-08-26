@@ -3,7 +3,7 @@ import { STORAGE_KEYS } from '@/consts';
 import { StorageService } from '@/lib/StorageService';
 import { cn } from '@/lib/utils';
 import { RootState } from '@/store';
-import { CartProduct, Order, RedirectedCart } from '@/types';
+import { RedirectedCart } from '@/types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,10 +11,13 @@ import { useNavigate } from 'react-router-dom';
 interface Props {
   className?: string;
 }
-const orderService = new StorageService<RedirectedCart>(STORAGE_KEYS.order.type, STORAGE_KEYS.order.key);
+const orderService = new StorageService<RedirectedCart>(
+  STORAGE_KEYS.order.type,
+  STORAGE_KEYS.order.key,
+  import.meta.env.VITE_STORAGE_SECRET_KEY,
+);
 
 const SubmitOrder: React.FC<Props> = ({ className }) => {
-
   const navigate = useNavigate();
   const cart = useSelector((state: RootState) => state.cart);
 
