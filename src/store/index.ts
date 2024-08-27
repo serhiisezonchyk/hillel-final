@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { novapostApi } from './api/novapostApi';
 import { productApi } from './api/productApi';
+import authReducer from './slices/auth';
 import cartReducer from './slices/cart';
 import checkoutReducer from './slices/checkout';
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
     [novapostApi.reducerPath]: novapostApi.reducer,
     cart: cartReducer,
     checkout: checkoutReducer,
+    auth: authReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

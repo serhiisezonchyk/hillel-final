@@ -1,4 +1,6 @@
+import { logout, selectIsAuth } from '@/store/slices/auth';
 import { ArrowDown } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { SearchPane } from '../search-pane';
 import CartLink from '../shared/CartLink';
@@ -9,6 +11,8 @@ import { Button } from '../ui/button';
 import HeaderCityChooser from './HeaderCityChooser';
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
   return (
     <>
       <header className="">
@@ -49,9 +53,19 @@ const Header = () => {
               </div>
             </CategoryDropdown>
             <SearchPane />
-            <Button asChild className="hidden md:block content-center bg-primary-dark font-light">
-              <Link to="/sign-in">Sign in</Link>
-            </Button>
+            {isAuth ? (
+              <Button
+                onClick={() => dispatch(logout())}
+                className="hidden md:block content-center bg-primary-dark font-light"
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button asChild className="hidden md:block content-center bg-primary-dark font-light">
+                <Link to="/sign-in">Sign in</Link>
+              </Button>
+            )}
+
             <CartLink className="hidden md:flex justify-center items-center" />
           </div>
         </div>

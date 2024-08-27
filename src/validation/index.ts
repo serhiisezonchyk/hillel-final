@@ -20,7 +20,7 @@ export const cartProductSchema = productSchema.extend({
 });
 
 export const signInSchema = z.object({
-  login: z.string().min(1, 'Login is required'),
+  username: z.string().min(1, 'Login is required'),
   password: z.string().min(1, 'Password is required'),
 });
 

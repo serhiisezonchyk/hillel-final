@@ -1,7 +1,11 @@
-import { Home, LogIn, MoreHorizontal, ShoppingCart } from 'lucide-react';
+import { logout, selectIsAuth } from '@/store/slices/auth';
+import { Home, LogIn, LogOut, MoreHorizontal, ShoppingCart } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 import BottomMenu from './BottomMenu';
 
 const BottomNavigation = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
   return (
     <BottomMenu>
       <BottomMenu.Item icon={<Home size={16} />} link="/">
@@ -13,9 +17,15 @@ const BottomNavigation = () => {
       <BottomMenu.ItemCart icon={<ShoppingCart size={16} />} link="/cart">
         Cart
       </BottomMenu.ItemCart>
-      <BottomMenu.Item icon={<LogIn size={16} />} link="/sign-in">
-        Login
-      </BottomMenu.Item>
+      {isAuth ? (
+        <BottomMenu.Item icon={<LogOut size={16} />} link="" onClick={() => dispatch(logout())}>
+          Logout
+        </BottomMenu.Item>
+      ) : (
+        <BottomMenu.Item icon={<LogIn size={16} />} link="/sign-in">
+          Login
+        </BottomMenu.Item>
+      )}
     </BottomMenu>
   );
 };
